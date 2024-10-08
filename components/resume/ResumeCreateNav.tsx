@@ -16,7 +16,7 @@ function ResumeCreateNav() {
                 : "bg-secondary text-gray-700 dark:text-gray-400"
             }`}
             onClick={() => resumeCtx?.setStep(item)}
-            disabled={resumeCtx?.step < item}
+            disabled={(resumeCtx?.step && resumeCtx?.step < item) || false}
           >
             {item}
           </Button>
