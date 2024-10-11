@@ -14,4 +14,5 @@ export type ResumeContextType = {
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   saveResume: () => Promise<void>;
+  resumes?: Resume[];
 };

@@ -1,4 +1,7 @@
+import { useResume } from "@/context/resume";
+
 function StepTwo() {
-  return <div>StepTwo</div>;
+  const resumeCtx = useResume();
+  return <div>StepTwo {resumeCtx?.resume.id}</div>;
 }
 export default StepTwo;

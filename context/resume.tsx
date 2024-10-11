@@ -1,6 +1,8 @@
 "use client";
-import { saveResumeToDb } from "@/actions/resume";
+import { AllUserResumesFromDb, saveResumeToDb } from "@/actions/resume";
+import { useToast } from "@/hooks/use-toast";
 import { Resume, ResumeContextType } from "@/types/resume";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const ResumeContext = React.createContext<ResumeContextType | null>(null);
@@ -17,7 +19,10 @@ const intitialState: Resume = {
 
 export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const [resume, setResume] = React.useState<Resume>(intitialState);
+  const [resumes, setResumes] = React.useState<Resume[]>([]);
   const [step, setStep] = React.useState(1);
+  const { toast } = useToast();
+  const router = useRouter();
 
   React.useEffect(() => {
     const saveResume = localStorage.getItem("resume");
@@ -26,9 +31,14 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  React.useEffect(() => {
+    getUserResumes();
+  }, []);
+
   const saveResume = async () => {
     try {
       const data = await saveResumeToDb(resume);
+      console.log(data);
       if (data) {
         alert("Resume saved successfully");
         setResume({
@@ -39,17 +49,34 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
           phone: data[0].phone as string,
           email: data[0].userEmail as string,
         });
-        // setStep(2);
+        toast({
+          variant: "default",
+          description: "Resume saved. Keep building.",
+        });
+        router.push(`/dashboard/resume/edit/${data[0].id!}`);
+        setStep(2);
       }
     } catch (error) {
       console.error(error);
-      // todo: add toast notification
+      toast({ variant: "destructive", description: "Failed to save resume" });
+    }
+  };
+
+  const getUserResumes = async () => {
+    try {
+      const data = await AllUserResumesFromDb();
+      if (data) {
+        setResumes(data);
+      }
+    } catch (error) {
+      console.error(error);
+      toast({ variant: "destructive", description: "Failed to save resume" });
     }
   };
 
   return (
     <ResumeContext.Provider
-      value={{ step, setStep, resume, setResume, saveResume }}
+      value={{ step, setStep, resume, setResume, saveResume, resumes }}
     >
       {children}
     </ResumeContext.Provider>

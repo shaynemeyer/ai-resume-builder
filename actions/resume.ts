@@ -1,5 +1,5 @@
 "use server";
-
+import { sql } from "drizzle-orm";
 import { db } from "@/db/drizzle";
 import { resume } from "@/db/schema/resume";
 import { Resume } from "@/types/resume";
@@ -24,6 +24,26 @@ export const saveResumeToDb = async (data: Resume) => {
       throw new Error(error?.message);
     }
 
-    console.log(error);
+    console.error(error);
+  }
+};
+
+export const AllUserResumesFromDb = async () => {
+  try {
+    const user = await currentUser();
+    const userEmail = user?.emailAddresses[0]?.emailAddress;
+
+    const resumes = await db
+      .select()
+      .from(resume)
+      .where(sql`resume.email=${userEmail}`);
+    console.log(resumes);
+    return resumes;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error?.message);
+    }
+
+    console.error(error);
   }
 };

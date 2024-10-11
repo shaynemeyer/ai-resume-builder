@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/context/theme";
 import TopNav from "@/components/nav/TopNav";
 import { ResumeProvider } from "@/context/resume";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/toaster";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -42,6 +43,7 @@ export default function RootLayout({
             <ResumeProvider>
               <TopNav />
               {children}
+              <Toaster />
             </ResumeProvider>
           </ThemeProvider>
         </body>

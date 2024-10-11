@@ -3,12 +3,12 @@
 import ResumeCreateNav from "@/components/resume/ResumeCreateNav";
 import StepFive from "@/components/resume/StepFive";
 import StepFour from "@/components/resume/StepFour";
-import StepOne from "@/components/resume/StepOneCreate";
+import StepOne from "@/components/resume/StepOne";
 import StepThree from "@/components/resume/StepThree";
 import StepTwo from "@/components/resume/StepTwo";
 import { useResume } from "@/context/resume";
 
-function CreatePage() {
+function ResumeEditPage() {
   const resumeCtx = useResume();
 
   return (
@@ -22,4 +22,4 @@ function CreatePage() {
     </div>
   );
 }
-export default CreatePage;
+export default ResumeEditPage;
