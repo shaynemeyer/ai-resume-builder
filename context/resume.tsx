@@ -3,6 +3,7 @@ import {
   getResumeFromDb,
   getUserResumesFromDb,
   saveResumeToDb,
+  updateResumeFromDb,
 } from "@/actions/resume";
 import { useToast } from "@/hooks/use-toast";
 import { Resume, ResumeContextType } from "@/types/resume";
@@ -98,6 +99,23 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error(error);
       toast({ variant: "destructive", description: "Failed to fetch resume" });
+    }
+  };
+
+  const updateResume = async () => {
+    try {
+      const data = await updateResumeFromDb(resume);
+      if (data) {
+        setResume(data as unknown as Resume);
+        toast({
+          variant: "default",
+          description: "Resume updated. Keep building.",
+        });
+        setStep(3);
+      }
+    } catch (error) {
+      console.error(error);
+      toast({ variant: "destructive", description: "Failed to update resume" });
     }
   };
 

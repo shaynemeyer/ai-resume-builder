@@ -11,7 +11,7 @@ const currentUserEmail = async () => {
   return userEmail;
 };
 
-const checkOwnership = async (resumeId) => {
+const checkOwnership = async (resumeId: number) => {
   try {
     const userEmail = await currentUserEmail();
     if (!userEmail) {
@@ -93,6 +93,34 @@ export const getResumeFromDb = async (id: number) => {
       .where(sql`id=${id}`);
 
     return result[0];
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error?.message);
+    }
+
+    console.error(error);
+  }
+};
+
+export const updateResumeFromDb = async (data: Resume) => {
+  try {
+    // check ownership
+    await checkOwnership(parseInt(data?.id as unknown as string));
+
+    const result = await db
+      .update(resume)
+      .set({
+        name: data.name,
+        job: data.job,
+        address: data.address,
+        phone: data.phone,
+        email: data.email,
+        themeColor: data.themeColor,
+      })
+      .where(sql`id=${data?.id}`)
+      .returning();
+
+    return result;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error?.message);
