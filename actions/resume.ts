@@ -5,10 +5,47 @@ import { resume } from "@/db/schema/resume";
 import { Resume } from "@/types/resume";
 import { currentUser } from "@clerk/nextjs/server";
 
+const currentUserEmail = async () => {
+  const user = await currentUser();
+  const userEmail = user?.emailAddresses[0]?.emailAddress;
+  return userEmail;
+};
+
+const checkOwnership = async (resumeId) => {
+  try {
+    const userEmail = await currentUserEmail();
+    if (!userEmail) {
+      throw new Error("User not found");
+    }
+
+    // find the resume by id
+    const result = await db
+      .selectDistinct()
+      .from(resume)
+      .where(sql`id=${resumeId} and user_email=${userEmail}`);
+
+    if (!result) {
+      throw new Error("Resume not found");
+    }
+
+    // check ownership
+    if (result[0].userEmail !== userEmail) {
+      throw new Error("Unauthorized");
+    }
+
+    return true;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error?.message);
+    }
+
+    console.error(error);
+  }
+};
+
 export const saveResumeToDb = async (data: Resume) => {
   try {
-    const user = await currentUser();
-    const userEmail = user?.emailAddresses[0]?.emailAddress;
+    const userEmail = await currentUserEmail();
 
     const resumeResult = await db
       .insert(resume)
