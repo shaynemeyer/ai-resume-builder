@@ -6,6 +6,7 @@ export interface Resume {
   phone: string;
   email: string;
   themeColor?: string;
+  userEmail?: string;
 }
 
 export type ResumeContextType = {

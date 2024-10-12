@@ -15,6 +15,7 @@ const intitialState: Resume = {
   phone: "",
   email: "",
   themeColor: "",
+  userEmail: "",
 };
 
 export function ResumeProvider({ children }: { children: React.ReactNode }) {
@@ -38,7 +39,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const saveResume = async () => {
     try {
       const data = await saveResumeToDb(resume);
-      console.log(data);
+
       if (data) {
         alert("Resume saved successfully");
         setResume({
@@ -65,8 +66,9 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const getUserResumes = async () => {
     try {
       const data = await getUserResumesFromDb();
+
       if (data) {
-        setResumes(data);
+        setResumes(data as Resume[]);
       }
     } catch (error) {
       console.error(error);

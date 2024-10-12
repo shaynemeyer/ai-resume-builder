@@ -36,8 +36,8 @@ export const getUserResumesFromDb = async () => {
     const resumes = await db
       .select()
       .from(resume)
-      .where(sql`resume.email=${userEmail}`);
-    console.log(resumes);
+      .where(sql`resume.user_email=${userEmail}`);
+
     return resumes;
   } catch (error) {
     if (error instanceof Error) {

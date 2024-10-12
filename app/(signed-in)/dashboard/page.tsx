@@ -1,4 +1,5 @@
 "use client";
+import ResumeCard from "@/components/cards/ResumeCard";
 import SkeletonCard from "@/components/cards/SkeletonCard";
 import { useResume } from "@/context/resume";
 
@@ -8,7 +9,7 @@ function DashboardPage() {
   if (!resumeCtx?.resumes?.length) {
     return (
       <div>
-        <p className="text-center">Loading...</p>
+        <p className="text-center my-5">Loading...</p>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-5 px-5">
           <SkeletonCard />
           <SkeletonCard />
@@ -19,8 +20,10 @@ function DashboardPage() {
   }
 
   return (
-    <div>
-      <pre>{JSON.stringify(resumeCtx?.resumes, null, 4)}</pre>
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-5 px-5">
+      {resumeCtx.resumes?.map((resume) => (
+        <ResumeCard key={resume.id} resume={resume} />
+      ))}
     </div>
   );
 }

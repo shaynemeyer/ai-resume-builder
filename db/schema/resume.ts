@@ -6,7 +6,8 @@ import { skill } from "./skill";
 
 export const resume = pgTable("resume", {
   id: serial().primaryKey(),
-  userEmail: text("email").unique(),
+  userEmail: text("user_email"),
+  email: text("email"),
   title: text("title"),
   name: text("name"),
   job: text("job"),
