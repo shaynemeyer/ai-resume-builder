@@ -28,7 +28,7 @@ export const saveResumeToDb = async (data: Resume) => {
   }
 };
 
-export const AllUserResumesFromDb = async () => {
+export const getUserResumesFromDb = async () => {
   try {
     const user = await currentUser();
     const userEmail = user?.emailAddresses[0]?.emailAddress;

@@ -1,5 +1,5 @@
 "use client";
-import { AllUserResumesFromDb, saveResumeToDb } from "@/actions/resume";
+import { getUserResumesFromDb, saveResumeToDb } from "@/actions/resume";
 import { useToast } from "@/hooks/use-toast";
 import { Resume, ResumeContextType } from "@/types/resume";
 import { useRouter } from "next/navigation";
@@ -64,7 +64,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
 
   const getUserResumes = async () => {
     try {
-      const data = await AllUserResumesFromDb();
+      const data = await getUserResumesFromDb();
       if (data) {
         setResumes(data);
       }
