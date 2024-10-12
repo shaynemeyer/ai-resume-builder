@@ -1,8 +1,12 @@
 "use client";
-import { getUserResumesFromDb, saveResumeToDb } from "@/actions/resume";
+import {
+  getResumeFromDb,
+  getUserResumesFromDb,
+  saveResumeToDb,
+} from "@/actions/resume";
 import { useToast } from "@/hooks/use-toast";
 import { Resume, ResumeContextType } from "@/types/resume";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
 const ResumeContext = React.createContext<ResumeContextType | null>(null);
@@ -24,6 +28,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const [step, setStep] = React.useState(1);
   const { toast } = useToast();
   const router = useRouter();
+  const { id } = useParams();
 
   React.useEffect(() => {
     const saveResume = localStorage.getItem("resume");
@@ -35,6 +40,12 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   React.useEffect(() => {
     getUserResumes();
   }, []);
+
+  React.useEffect(() => {
+    if (id) {
+      getResume();
+    }
+  }, [id]);
 
   const saveResume = async () => {
     try {
@@ -48,8 +59,12 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
           job: data[0].job as string,
           address: data[0].address as string,
           phone: data[0].phone as string,
-          email: data[0].userEmail as string,
+          email: data[0].email as string,
+          userEmail: data[0].userEmail as string,
         });
+
+        localStorage.removeItem("resume");
+
         toast({
           variant: "default",
           description: "Resume saved. Keep building.",
@@ -73,6 +88,16 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
     } catch (error) {
       console.error(error);
       toast({ variant: "destructive", description: "Failed to save resume" });
+    }
+  };
+
+  const getResume = async () => {
+    try {
+      const data = await getResumeFromDb(parseInt(id as string));
+      setResume(data as Resume);
+    } catch (error) {
+      console.error(error);
+      toast({ variant: "destructive", description: "Failed to fetch resume" });
     }
   };
 

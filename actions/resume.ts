@@ -47,3 +47,20 @@ export const getUserResumesFromDb = async () => {
     console.error(error);
   }
 };
+
+export const getResumeFromDb = async (id: number) => {
+  try {
+    const result = await db
+      .select()
+      .from(resume)
+      .where(sql`id=${id}`);
+
+    return result[0];
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error?.message);
+    }
+
+    console.error(error);
+  }
+};
