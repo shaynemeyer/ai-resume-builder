@@ -70,12 +70,14 @@ export const getUserResumesFromDb = async () => {
     const user = await currentUser();
     const userEmail = user?.emailAddresses[0]?.emailAddress;
 
-    const result = await db
-      .select()
-      .from(resumes)
-      .where(sql`user_email=${userEmail}`);
-    console.log(result);
-    return result;
+    if (userEmail) {
+      const result = await db
+        .select()
+        .from(resumes)
+        .where(sql`user_email=${userEmail}`);
+      console.log(result);
+      return result;
+    }
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error?.message);
