@@ -1,8 +1,11 @@
 import { useResume } from "@/context/resume";
 import { Button } from "../ui/button";
+import { usePathname } from "next/navigation";
 
 function ResumeCreateNav() {
   const resumeCtx = useResume();
+  const pathname = usePathname();
+  const isEditPage = pathname.includes("/edit/");
 
   return (
     <nav className="flex justify-center w-full py-4">
@@ -16,7 +19,10 @@ function ResumeCreateNav() {
                 : "bg-secondary text-gray-700 dark:text-gray-400"
             }`}
             onClick={() => resumeCtx?.setStep(item)}
-            disabled={(resumeCtx?.step && resumeCtx?.step < item) || false}
+            disabled={
+              (!isEditPage && resumeCtx?.step && resumeCtx?.step < item) ||
+              false
+            }
           >
             {item}
           </Button>

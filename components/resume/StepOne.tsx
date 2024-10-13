@@ -9,8 +9,8 @@ function StepOne() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await resumeCtx?.saveResume();
-    // go to next step
+    await resumeCtx?.updateResume();
+    resumeCtx?.setStep(2);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +29,7 @@ function StepOne() {
   };
 
   return (
-    <div className="w-full lg:w-1/2 p-5 shadow-lg border-t-4 rounded-lg">
+    <div className="w-full p-5 shadow-lg border-t-4 rounded-lg">
       <h2 className="text-2xl font-bold mb-5">Personal Information</h2>
 
       <Input

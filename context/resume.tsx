@@ -7,7 +7,7 @@ import {
 } from "@/actions/resume";
 import { useToast } from "@/hooks/use-toast";
 import { Resume, ResumeContextType } from "@/types/resume";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React from "react";
 
 const ResumeContext = React.createContext<ResumeContextType | null>(null);
@@ -31,6 +31,14 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
   const { toast } = useToast();
   const router = useRouter();
   const { id } = useParams();
+  const pathname = usePathname();
+
+  React.useEffect(() => {
+    if (pathname.includes("/resume/create")) {
+      setResume(intitialState);
+      setStep(1);
+    }
+  }, [pathname]);
 
   React.useEffect(() => {
     const saveResume = localStorage.getItem("resume");
