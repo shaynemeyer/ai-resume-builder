@@ -21,6 +21,7 @@ const intitialState: Resume = {
   email: "",
   themeColor: "",
   userEmail: "",
+  summary: "",
 };
 
 export function ResumeProvider({ children }: { children: React.ReactNode }) {
@@ -62,6 +63,7 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
           phone: data[0].phone as string,
           email: data[0].email as string,
           userEmail: data[0].userEmail as string,
+          summary: data[0].summary as string,
         });
 
         localStorage.removeItem("resume");
@@ -111,7 +113,6 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
           variant: "default",
           description: "Resume updated. Keep building.",
         });
-        setStep(3);
       }
     } catch (error) {
       console.error(error);
@@ -121,7 +122,15 @@ export function ResumeProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <ResumeContext.Provider
-      value={{ step, setStep, resume, setResume, saveResume, resumes }}
+      value={{
+        step,
+        setStep,
+        resume,
+        setResume,
+        saveResume,
+        updateResume,
+        resumes,
+      }}
     >
       {children}
     </ResumeContext.Provider>

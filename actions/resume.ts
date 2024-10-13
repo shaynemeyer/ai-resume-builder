@@ -1,7 +1,7 @@
 "use server";
 import { sql } from "drizzle-orm";
 import { db } from "@/db/drizzle";
-import { resume } from "@/db/schema/resume";
+import { resumes } from "@/db/schema/resumes";
 import { Resume } from "@/types/resume";
 import { currentUser } from "@clerk/nextjs/server";
 
@@ -21,7 +21,7 @@ const checkOwnership = async (resumeId: number) => {
     // find the resume by id
     const result = await db
       .selectDistinct()
-      .from(resume)
+      .from(resumes)
       .where(sql`id=${resumeId} and user_email=${userEmail}`);
 
     if (!result) {
@@ -48,7 +48,7 @@ export const saveResumeToDb = async (data: Resume) => {
     const userEmail = await currentUserEmail();
 
     const resumeResult = await db
-      .insert(resume)
+      .insert(resumes)
       .values({
         ...data,
         userEmail,
@@ -70,12 +70,12 @@ export const getUserResumesFromDb = async () => {
     const user = await currentUser();
     const userEmail = user?.emailAddresses[0]?.emailAddress;
 
-    const resumes = await db
+    const result = await db
       .select()
-      .from(resume)
+      .from(resumes)
       .where(sql`resume.user_email=${userEmail}`);
 
-    return resumes;
+    return result;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error?.message);
@@ -89,7 +89,7 @@ export const getResumeFromDb = async (id: number) => {
   try {
     const result = await db
       .select()
-      .from(resume)
+      .from(resumes)
       .where(sql`id=${id}`);
 
     return result[0];
@@ -108,7 +108,7 @@ export const updateResumeFromDb = async (data: Resume) => {
     await checkOwnership(parseInt(data?.id as unknown as string));
 
     const result = await db
-      .update(resume)
+      .update(resumes)
       .set({
         name: data.name,
         job: data.job,

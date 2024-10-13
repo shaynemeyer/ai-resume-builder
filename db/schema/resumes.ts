@@ -4,7 +4,7 @@ import { experience } from "./experience";
 import { education } from "./education";
 import { skill } from "./skill";
 
-export const resume = pgTable("resume", {
+export const resumes = pgTable("resumes", {
   id: serial().primaryKey(),
   userEmail: text("user_email"),
   email: text("email"),
@@ -15,16 +15,17 @@ export const resume = pgTable("resume", {
   phone: text("phone"),
   themeColor: text("theme_color"),
   createdAt: timestamp("created_at").defaultNow(),
+  summary: text("summary"),
 });
 
-export const experienceRelations = relations(resume, ({ many }) => ({
+export const experienceRelations = relations(resumes, ({ many }) => ({
   experience: many(experience),
 }));
 
-export const educationRelations = relations(resume, ({ many }) => ({
+export const educationRelations = relations(resumes, ({ many }) => ({
   education: many(education),
 }));
 
-export const skillRelations = relations(resume, ({ many }) => ({
+export const skillRelations = relations(resumes, ({ many }) => ({
   skill: many(skill),
 }));

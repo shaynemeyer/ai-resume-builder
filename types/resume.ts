@@ -7,6 +7,7 @@ export interface Resume {
   email: string;
   themeColor?: string;
   userEmail?: string;
+  summary?: string;
 }
 
 export type ResumeContextType = {
@@ -16,4 +17,5 @@ export type ResumeContextType = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   saveResume: () => Promise<void>;
   resumes?: Resume[];
+  updateResume: () => Promise<void>;
 };
