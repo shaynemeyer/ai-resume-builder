@@ -1,5 +1,4 @@
 import { useResume } from "@/context/resume";
-import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { Brain, Loader2Icon } from "lucide-react";
 import React from "react";
@@ -70,19 +69,6 @@ function StepTwo() {
           Generate with AI
         </Button>
       </div>
-
-      {/* <Textarea
-        onChange={(e) =>
-          resumeCtx?.setResume({
-            ...resumeCtx.resume,
-            summary: e.target.value,
-          })
-        }
-        value={resumeCtx?.resume.summary}
-        className="mb-3"
-        placeholder="Write a summary about yourself"
-        rows={10}
-      /> */}
 
       <ReactQuill
         value={resumeCtx?.resume.summary}

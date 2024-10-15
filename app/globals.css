@@ -64,3 +64,39 @@
   }
 }
 
+/* quill dark mode css */
+.quill .ql-container {
+  border-radius: 8px;
+}
+ 
+.quill .ql-toolbar {
+  border-radius: 8px 8px 0 0;
+  border: 1px solid #333;
+  border-bottom: none !important;
+}
+ 
+.quill .ql-container {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  border: 1px solid #333;
+}
+ 
+/* on preview */
+.ql-bubble {
+  border: none !important;
+  border-radius: 0 !important;
+}
+ 
+/* hide nav on print */
+@media print {
+  @page {
+    margin: 0;
+  }
+ 
+  /* Hide specific elements */
+  .top-nav,
+  .meta-title,
+  .footer-text {
+    display: none;
+  }
+}
