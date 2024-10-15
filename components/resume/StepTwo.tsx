@@ -5,6 +5,9 @@ import { Brain, Loader2Icon } from "lucide-react";
 import React from "react";
 import { toast } from "@/hooks/use-toast";
 import { runAi } from "@/actions/ai";
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+import "react-quill/dist/quill.snow.css";
 
 function StepTwo() {
   const resumeCtx = useResume();
@@ -68,7 +71,7 @@ function StepTwo() {
         </Button>
       </div>
 
-      <Textarea
+      {/* <Textarea
         onChange={(e) =>
           resumeCtx?.setResume({
             ...resumeCtx.resume,
@@ -79,8 +82,17 @@ function StepTwo() {
         className="mb-3"
         placeholder="Write a summary about yourself"
         rows={10}
+      /> */}
+
+      <ReactQuill
+        value={resumeCtx?.resume.summary}
+        onChange={(value) =>
+          resumeCtx?.setResume({ ...resumeCtx.resume, summary: value })
+        }
+        theme="snow"
       />
-      <div className="flex justify-end">
+
+      <div className="flex justify-end mt-3">
         <Button onClick={handleSumbit}>Next</Button>
       </div>
     </div>
