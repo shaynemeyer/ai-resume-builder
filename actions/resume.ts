@@ -93,28 +93,6 @@ export const createResumeAction = async (
   redirect("/error");
 };
 
-export const saveResumeToDb = async (data: Resume) => {
-  try {
-    const userEmail = await currentUserEmail();
-
-    const resumeResult = await db
-      .insert(resumes)
-      .values({
-        ...data,
-        userEmail,
-        id: undefined, // remove id to let db automatically generate id
-      })
-      .returning();
-    return resumeResult;
-  } catch (error) {
-    if (error instanceof Error) {
-      throw new Error(error?.message);
-    }
-
-    console.error(error);
-  }
-};
-
 export const getUserResumesFromDb = async () => {
   try {
     const user = await currentUser();
@@ -145,6 +123,19 @@ export const getResumeFromDb = async (id: number) => {
       .where(sql`id=${id}`);
 
     return result[0];
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error?.message);
+    }
+
+    console.error(error);
+  }
+};
+
+export const deleteResumeAction = async (resumeId: number) => {
+  console.log(`deleting resume ${resumeId}`);
+  try {
+    await db.delete(resumes).where(sql`id=${resumeId}`);
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error?.message);

@@ -2,7 +2,7 @@
 import { Pencil1Icon, ReloadIcon, TrashIcon } from "@radix-ui/react-icons";
 import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
-import { MouseEvent, MouseEventHandler } from "react";
+import { MouseEvent } from "react";
 
 type btnSize = "default" | "lg" | "sm";
 

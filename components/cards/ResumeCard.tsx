@@ -4,8 +4,32 @@ import Link from "next/link";
 import Summary from "../preview/Summary";
 import { IconButton } from "../form/Button";
 import Alert from "../dialogs/CustomAlertDialog";
+import { deleteResumeAction, getUserResumesFromDb } from "@/actions/resume";
+import { toast } from "@/hooks/use-toast";
 
-function ResumeCard({ resume }: { resume: Resume }) {
+interface ResumeCardProps {
+  resume: Resume;
+  setResumes: React.Dispatch<React.SetStateAction<Resume[]>>;
+}
+
+function ResumeCard({ resume, setResumes }: ResumeCardProps) {
+  const refetchResumes = async () => {
+    const resumes = (await getUserResumesFromDb()) || [];
+
+    if (resumes?.length > 0) {
+      setResumes(resumes as Resume[]);
+    }
+  };
+
+  const handleDelete = (resumeId: number) => {
+    async function deleteResume() {
+      await deleteResumeAction(resumeId);
+      toast({ description: "Resume has been deleted" });
+    }
+    deleteResume();
+    refetchResumes();
+  };
+
   return (
     <div
       className="shadow-lg w-full rounded-xl p-5 border-t-[20px] max-h-screen overflow-y-auto"
@@ -18,7 +42,7 @@ function ResumeCard({ resume }: { resume: Resume }) {
 
         <Alert
           trigger={<IconButton actionType="delete"></IconButton>}
-          action={() => alert("delete")}
+          action={() => handleDelete(resume.id as number)}
         />
       </div>
 
