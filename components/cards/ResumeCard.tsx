@@ -3,6 +3,7 @@ import PersonalDetails from "../preview/PersonalDetails";
 import Link from "next/link";
 import Summary from "../preview/Summary";
 import { IconButton } from "../form/Button";
+import Alert from "../dialogs/CustomAlertDialog";
 
 function ResumeCard({ resume }: { resume: Resume }) {
   return (
@@ -15,10 +16,10 @@ function ResumeCard({ resume }: { resume: Resume }) {
           <IconButton actionType="edit"></IconButton>
         </Link>
 
-        <IconButton
-          actionType="delete"
-          onClick={() => alert("delete")}
-        ></IconButton>
+        <Alert
+          trigger={<IconButton actionType="delete"></IconButton>}
+          action={() => alert("delete")}
+        />
       </div>
 
       <PersonalDetails resume={resume} />
