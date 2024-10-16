@@ -16,7 +16,7 @@ function StepTwo() {
   const handleSumbit = async (e: React.FormEvent) => {
     e.preventDefault();
     // save the resume to the database
-    await resumeCtx?.updateResume();
+    // await resumeCtx?.updateResume();
     // go to next step
     resumeCtx?.setStep(3);
   };

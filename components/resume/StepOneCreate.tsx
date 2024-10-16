@@ -1,95 +1,76 @@
-import { useResume } from "@/context/resume";
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-import { SignInButton, useUser } from "@clerk/nextjs";
+"use client";
 
-function StepOne() {
-  const { isSignedIn } = useUser();
-  const resumeCtx = useResume();
+import { Resume } from "@/types/resume";
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await resumeCtx?.saveResume();
-    // go to next step
-  };
+import React from "react";
+import FormContainer from "../form/FormContainer";
+import { SubmitButton } from "../form/Button";
+import FormInput from "../form/FormInput";
+import { createResumeAction } from "@/actions/resume";
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+interface StepOneCreateProps {
+  resume: Resume;
+  setResume: React.Dispatch<React.SetStateAction<Resume>>;
+}
 
-    // update the resume state
-    resumeCtx?.setResume((prevState) => {
-      const updatedResume = {
-        ...prevState,
-        [name]: value,
-      };
-      // save to local storage
-      localStorage.setItem("resume", JSON.stringify(updatedResume));
-      return updatedResume;
-    });
-  };
-
+function StepOneCreate({ resume, setResume }: StepOneCreateProps) {
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg">
       <h2 className="text-2xl font-bold mb-5">Personal Information</h2>
 
-      <Input
-        name="name"
-        className="mb-3"
-        onChange={handleChange}
-        value={resumeCtx?.resume.name}
-        placeholder="Your name"
-        type="text"
-        autoFocus
-        required
-      />
-      <Input
-        name="job"
-        className="mb-3"
-        onChange={handleChange}
-        value={resumeCtx?.resume.job}
-        placeholder="Job title"
-        type="text"
-        autoFocus
-        required
-      />
-      <Input
-        name="address"
-        className="mb-3"
-        onChange={handleChange}
-        value={resumeCtx?.resume.address}
-        placeholder="Address"
-        type="text"
-        autoFocus
-        required
-      />
-      <Input
-        name="phone"
-        className="mb-3"
-        onChange={handleChange}
-        value={resumeCtx?.resume.phone}
-        placeholder="Phone number"
-        type="text"
-        autoFocus
-        required
-      />
-      <Input
-        name="email"
-        className="mb-3"
-        onChange={handleChange}
-        value={resumeCtx?.resume.email}
-        placeholder="Email address"
-        type="email"
-        autoFocus
-        required
-      />
-      <div className="flex justify-end">
-        {!isSignedIn ? (
-          <SignInButton>Sign in to save</SignInButton>
-        ) : (
-          <Button onClick={handleSubmit}>Save</Button>
-        )}
-      </div>
+      {resume && (
+        <FormContainer action={createResumeAction}>
+          <FormInput
+            name="name"
+            type="text"
+            placeholder="Your name"
+            defaultValue={resume.name}
+            onChange={(event) => {
+              setResume({ ...resume, name: event.target.value });
+            }}
+          />
+          <FormInput
+            name="job"
+            type="text"
+            placeholder="Job title"
+            defaultValue={resume.job || ""}
+            onChange={(event) => {
+              setResume({ ...resume, job: event.target.value });
+            }}
+          />
+          <FormInput
+            name="address"
+            type="text"
+            placeholder="Address"
+            defaultValue={resume.address || ""}
+            onChange={(event) => {
+              setResume({ ...resume, address: event.target.value });
+            }}
+          />
+          <FormInput
+            name="phone"
+            type="text"
+            placeholder="Phone number"
+            defaultValue={resume.phone || ""}
+            onChange={(event) => {
+              setResume({ ...resume, phone: event.target.value });
+            }}
+          />
+          <FormInput
+            name="email"
+            type="email"
+            placeholder="Email address"
+            defaultValue={resume.email}
+            onChange={(event) => {
+              setResume({ ...resume, email: event.target.value });
+            }}
+          />
+          <div className="flex justify-end">
+            <SubmitButton text="Save" size="sm" />
+          </div>
+        </FormContainer>
+      )}
     </div>
   );
 }
-export default StepOne;
+export default StepOneCreate;

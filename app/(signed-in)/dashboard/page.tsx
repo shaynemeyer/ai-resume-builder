@@ -1,12 +1,26 @@
 "use client";
+import { getUserResumesFromDb } from "@/actions/resume";
 import ResumeCard from "@/components/cards/ResumeCard";
 import SkeletonCard from "@/components/cards/SkeletonCard";
-import { useResume } from "@/context/resume";
+import { Resume } from "@/types/resume";
+import React from "react";
 
 function DashboardPage() {
-  const resumeCtx = useResume();
+  const [resumes, setResumes] = React.useState<Resume[]>([]);
 
-  if (!resumeCtx?.resumes?.length) {
+  React.useEffect(() => {
+    const fetchResumes = async () => {
+      const data = await getUserResumesFromDb();
+
+      if (data) {
+        setResumes(data as Resume[]);
+      }
+    };
+
+    fetchResumes();
+  }, []);
+
+  if (!resumes?.length) {
     return (
       <div>
         <p className="text-center my-5">Loading...</p>
@@ -21,7 +35,7 @@ function DashboardPage() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 m-5 px-5">
-      {resumeCtx.resumes?.map((resume) => (
+      {resumes?.map((resume) => (
         <ResumeCard key={resume.id} resume={resume} />
       ))}
     </div>

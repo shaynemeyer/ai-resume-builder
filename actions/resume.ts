@@ -4,6 +4,18 @@ import { db } from "@/db/drizzle";
 import { resumes } from "@/db/schema/resumes";
 import { Resume } from "@/types/resume";
 import { currentUser } from "@clerk/nextjs/server";
+import {
+  personalInformationSchema,
+  validateWithZodSchema,
+} from "@/utils/schemas";
+import { redirect, RedirectType } from "next/navigation";
+
+const renderError = (error: unknown): { message: string } => {
+  console.log(error);
+  return {
+    message: error instanceof Error ? error.message : "An error occurred",
+  };
+};
 
 const currentUserEmail = async () => {
   const user = await currentUser();
@@ -43,6 +55,44 @@ const checkOwnership = async (resumeId: number) => {
   }
 };
 
+export const createResumeAction = async (
+  prevState: unknown,
+  formData: FormData
+) => {
+  let resumeId = 0;
+  try {
+    const userEmail = await currentUserEmail();
+    if (!userEmail) {
+      throw new Error("Please login to create a resume");
+    }
+
+    const rawData = Object.fromEntries(formData);
+
+    const validatedFields = validateWithZodSchema(
+      personalInformationSchema,
+      rawData
+    );
+
+    const resumeResult = await db
+      .insert(resumes)
+      .values({
+        ...validatedFields,
+        userEmail,
+        id: undefined, // remove id to let db automatically generate id
+      })
+      .returning();
+    resumeId = resumeResult[0].id!;
+  } catch (error) {
+    return renderError(error);
+  }
+
+  if (resumeId > 0) {
+    redirect(`/dashboard/resume/edit/${resumeId}`);
+  }
+
+  redirect("/error");
+};
+
 export const saveResumeToDb = async (data: Resume) => {
   try {
     const userEmail = await currentUserEmail();
@@ -75,7 +125,7 @@ export const getUserResumesFromDb = async () => {
         .select()
         .from(resumes)
         .where(sql`user_email=${userEmail}`);
-      console.log(result);
+
       return result;
     }
   } catch (error) {
