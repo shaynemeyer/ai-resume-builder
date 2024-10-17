@@ -28,17 +28,18 @@ function ResumeEditPage() {
     fetchResume();
   }, [resumeCtx?.resumeId]);
 
+  if (!resume) return null;
+
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <ResumeCreateNav />
-
       {resumeCtx?.step === 1 && (
         <StepOne resume={resume} setResume={setResume} />
       )}
-      {/*
       {resumeCtx?.step === 2 && (
         <StepTwo resume={resume} setResume={setResume} />
-      )}
+      )}{" "}
+      {/*
       {resumeCtx?.step === 3 && <StepThree />}
       {resumeCtx?.step === 4 && <StepFour />}
       {resumeCtx?.step === 5 && <StepFive />} */}

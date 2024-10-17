@@ -7,8 +7,14 @@ import { runAi } from "@/actions/ai";
 import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
+import { Resume } from "@/types/resume";
 
-function StepTwo() {
+interface ResumeProps {
+  resume: Resume;
+  setResume: React.Dispatch<React.SetStateAction<Resume>>;
+}
+
+function StepTwo({ resume, setResume }: ResumeProps) {
   const resumeCtx = useResume();
 
   const [loading, setLoading] = React.useState(false);
@@ -23,7 +29,7 @@ function StepTwo() {
 
   const handleGenerateWithAi = async () => {
     setLoading(true);
-    if (!resumeCtx?.resume.job) {
+    if (!resume.job) {
       toast({
         variant: "destructive",
         description:
@@ -35,12 +41,12 @@ function StepTwo() {
 
     const response = await runAi(
       `Generate a resume summary for a person with the following details: ${JSON.stringify(
-        resumeCtx.resume
+        resume
       )} in plain text format`
     );
 
-    resumeCtx?.setResume({
-      ...resumeCtx.resume,
+    setResume({
+      ...resume,
       summary: response,
     });
     setLoading(false);
@@ -51,7 +57,7 @@ function StepTwo() {
       <div className="flex justify-between">
         <h2
           className="text-2xl font-bold mb-5"
-          style={{ color: resumeCtx?.resume.themeColor }}
+          // style={{ color: resumeCtx?.resume.themeColor }}
         >
           Summary
         </h2>
@@ -71,10 +77,8 @@ function StepTwo() {
       </div>
 
       <ReactQuill
-        value={resumeCtx?.resume.summary}
-        onChange={(value) =>
-          resumeCtx?.setResume({ ...resumeCtx.resume, summary: value })
-        }
+        value={resume.summary}
+        onChange={(value) => setResume({ ...resume, summary: value })}
         theme="snow"
       />
 
