@@ -10,6 +10,12 @@ export interface Resume {
   summary?: string;
 }
 
+export interface ResumeOptionalFields {
+  id?: number;
+  summary?: string;
+  themeColor?: string;
+}
+
 export type ResumeContextType = {
   step: number;
   setStep: React.Dispatch<React.SetStateAction<number>>;

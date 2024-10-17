@@ -67,6 +67,7 @@
 /* quill dark mode css */
 .quill .ql-container {
   border-radius: 8px;
+  min-height: 150px;
 }
  
 .quill .ql-toolbar {

@@ -2,13 +2,13 @@
 import { sql } from "drizzle-orm";
 import { db } from "@/db/drizzle";
 import { resumes } from "@/db/schema/resumes";
-import { Resume } from "@/types/resume";
+import { Resume, ResumeOptionalFields } from "@/types/resume";
 import { currentUser } from "@clerk/nextjs/server";
 import {
   personalInformationSchema,
   validateWithZodSchema,
 } from "@/utils/schemas";
-import { redirect, RedirectType } from "next/navigation";
+import { redirect } from "next/navigation";
 
 const renderError = (error: unknown): { message: string } => {
   console.log(error);
@@ -52,6 +52,51 @@ const checkOwnership = async (resumeId: number) => {
     }
 
     console.error(error);
+  }
+};
+
+export const updateResumeByFieldAction = async ({
+  id,
+  summary,
+  themeColor,
+}: ResumeOptionalFields) => {
+  try {
+    const userEmail = await currentUserEmail();
+    if (!userEmail) {
+      throw new Error("Please login to create a resume");
+    }
+    await db
+      .update(resumes)
+      .set({
+        summary,
+        themeColor,
+      })
+      .where(sql`id=${id} and user_email=${userEmail}`);
+  } catch (error) {
+    return renderError(error);
+  }
+};
+
+export const updateResumeAction = async (resume: Resume) => {
+  try {
+    const userEmail = await currentUserEmail();
+    if (!userEmail) {
+      throw new Error("Please login to create a resume");
+    }
+    const validatedFields = validateWithZodSchema(
+      personalInformationSchema,
+      resume
+    );
+
+    await db
+      .update(resumes)
+      .set({
+        ...validatedFields,
+        userEmail,
+      })
+      .where(sql`id=${resume.id} and user_email=${userEmail}`);
+  } catch (error) {
+    return renderError(error);
   }
 };
 

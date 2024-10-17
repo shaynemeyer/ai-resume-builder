@@ -8,6 +8,7 @@ import dynamic from "next/dynamic";
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import "react-quill/dist/quill.snow.css";
 import { Resume } from "@/types/resume";
+import { updateResumeByFieldAction } from "@/actions/resume";
 
 interface ResumeProps {
   resume: Resume;
@@ -22,7 +23,8 @@ function StepTwo({ resume, setResume }: ResumeProps) {
   const handleSumbit = async (e: React.FormEvent) => {
     e.preventDefault();
     // save the resume to the database
-    // await resumeCtx?.updateResume();
+    await updateResumeByFieldAction({ id: resume.id, summary: resume.summary });
+    toast({ description: "Resume updated successfully" });
     // go to next step
     resumeCtx?.setStep(3);
   };
@@ -57,7 +59,7 @@ function StepTwo({ resume, setResume }: ResumeProps) {
       <div className="flex justify-between">
         <h2
           className="text-2xl font-bold mb-5"
-          // style={{ color: resumeCtx?.resume.themeColor }}
+          style={{ color: resume?.themeColor }}
         >
           Summary
         </h2>

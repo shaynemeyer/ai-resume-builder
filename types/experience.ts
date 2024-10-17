@@ -5,6 +5,6 @@ export interface Experience {
   company: string;
   address: string;
   startDate: string;
-  endDate: string;
+  endDate?: string;
   summary?: string;
 }

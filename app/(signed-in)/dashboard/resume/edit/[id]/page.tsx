@@ -38,11 +38,10 @@ function ResumeEditPage() {
       )}
       {resumeCtx?.step === 2 && (
         <StepTwo resume={resume} setResume={setResume} />
-      )}{" "}
-      {/*
+      )}
       {resumeCtx?.step === 3 && <StepThree />}
       {resumeCtx?.step === 4 && <StepFour />}
-      {resumeCtx?.step === 5 && <StepFive />} */}
+      {resumeCtx?.step === 5 && <StepFive />}
     </div>
   );
 }
