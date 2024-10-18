@@ -9,6 +9,7 @@ type FormInputProps = {
   defaultValue?: string;
   placeholder?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  required?: boolean; // for form validation purpose only, not for UI validation (use Input's required prop)
 };
 
 function FormInput({
@@ -18,6 +19,7 @@ function FormInput({
   defaultValue,
   placeholder,
   onChange,
+  required = false,
 }: FormInputProps) {
   return (
     <div className="mb-2">
@@ -32,7 +34,7 @@ function FormInput({
         type={type}
         defaultValue={defaultValue}
         placeholder={placeholder}
-        required
+        required={required}
         onChange={onChange}
       />
     </div>

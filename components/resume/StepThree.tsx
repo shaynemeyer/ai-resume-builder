@@ -5,56 +5,60 @@ import { ArrowRight, Plus, X, Loader2Icon, Brain } from "lucide-react";
 import { useResume } from "@/context/resume";
 import { Button } from "../ui/button";
 import FormInput from "../form/FormInput";
+import { Experience } from "@/types/experience";
+import * as React from "react";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { CustomSheet } from "../sheets/CustomSheet";
+import ExperienceForm from "../experience/ExperienceForm";
+
+const initExperience: Experience = {
+  title: "",
+  company: "",
+  address: "",
+  startDate: "",
+  endDate: "",
+  summary: "",
+};
 
 function StepThree() {
+  const [experienceList, setExperienceList] = React.useState<Experience[]>([]);
   const resumeCtx = useResume();
 
   console.log("ResumeID: " + resumeCtx?.resumeId);
+
+  const removeExperience = async () => {
+    console.log("removeExperience");
+  };
 
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg overflow-y-auto">
       <h2 className="text-2xl font-bold mb-5">Experiences</h2>
 
-      {/* Add experience component here */}
-      <div className="mb-10">
-        <input type="hidden" name="resumeId" value={resumeCtx?.resumeId} />
-
-        <FormInput
-          name="job"
-          type="text"
-          placeholder="Job title"
-          defaultValue={""}
-        />
-        <FormInput
-          name="company"
-          type="text"
-          placeholder="Company name"
-          defaultValue={""}
-        />
-        <FormInput
-          name="address"
-          type="text"
-          placeholder="Address"
-          defaultValue={""}
-        />
-        <FormInput
-          name="startDate"
-          type="text"
-          placeholder="Start date"
-          defaultValue={""}
-        />
-        <FormInput
-          name="endDate"
-          type="text"
-          placeholder="endDate"
-          defaultValue={""}
-        />
-      </div>
+      {experienceList?.length > 0 && <div className="mb-10"></div>}
 
       <div className="flex justify-between mt-3">
-        <Button variant="outline">
-          <Plus size={18} className="mr-2" /> Add
-        </Button>
+        <CustomSheet
+          data={initExperience}
+          trigger={
+            <Button variant="outline">
+              <Plus size={18} className="mr-2" /> Add
+            </Button>
+          }
+          open={false}
+          sheetTitle="Add Experience"
+          sheetDescription="Add your most recent or relevant work experience."
+        >
+          <ExperienceForm resumeId={resumeCtx?.resumeId} />
+        </CustomSheet>
 
         {/* {experienceList?.length > 1 && (
           <Button variant="outline" onClick={removeExperience}>
@@ -62,9 +66,9 @@ function StepThree() {
           </Button>
         )} */}
 
-        <Button variant="outline">
+        {/* <Button variant="outline">
           <ArrowRight size={18} className="mr-2" /> Next
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
