@@ -34,10 +34,16 @@ function ResumeEditPage() {
     <div className="flex flex-col justify-center items-center h-screen">
       <ResumeCreateNav />
       {resumeCtx?.step === 1 && (
-        <StepOne resume={resume} setResume={setResume} />
+        <StepOne
+          resume={resume}
+          setResume={setResume as React.Dispatch<React.SetStateAction<Resume>>}
+        />
       )}
       {resumeCtx?.step === 2 && (
-        <StepTwo resume={resume} setResume={setResume} />
+        <StepTwo
+          resume={resume}
+          setResume={setResume as React.Dispatch<React.SetStateAction<Resume>>}
+        />
       )}
       {resumeCtx?.step === 3 && <StepThree />}
       {resumeCtx?.step === 4 && <StepFour />}
