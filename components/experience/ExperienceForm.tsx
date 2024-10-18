@@ -6,18 +6,21 @@ interface ExperienceFormProps {
   resumeId?: number;
   experience?: Experience;
   actionButtonText?: string;
+  closeAction?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 function ExperienceForm({
   resumeId = 0,
   experience,
   actionButtonText = "Save",
+  closeAction,
 }: ExperienceFormProps) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
     const rawData = Object.fromEntries(formData) as unknown as Experience;
     console.log("rawData: " + JSON.stringify(rawData));
+    if (closeAction) closeAction(false);
   };
 
   return (

@@ -17,10 +17,8 @@ interface CustomSheetProps {
   handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   sheetTitle?: string;
   sheetDescription?: string;
-  sheetCloseText?: string;
   data?: unknown;
   open: boolean;
-  setClose?: Dispatch<SetStateAction<boolean>>;
 }
 
 export function CustomSheet({
@@ -28,12 +26,10 @@ export function CustomSheet({
   sheetTitle = "Sheet Title",
   sheetDescription = "Sheet Description",
   children,
-  handleSubmit,
-  sheetCloseText = "Save ",
+  open = false,
 }: CustomSheetProps) {
-  const [open, setOpen] = useState(false);
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open}>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
       <SheetContent>
         <SheetHeader className="mb-4">

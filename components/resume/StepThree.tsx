@@ -4,19 +4,8 @@ import "react-quill/dist/quill.snow.css";
 import { ArrowRight, Plus, X, Loader2Icon, Brain } from "lucide-react";
 import { useResume } from "@/context/resume";
 import { Button } from "../ui/button";
-import FormInput from "../form/FormInput";
 import { Experience } from "@/types/experience";
 import * as React from "react";
-import {
-  Sheet,
-  SheetClose,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { CustomSheet } from "../sheets/CustomSheet";
 import ExperienceForm from "../experience/ExperienceForm";
 
@@ -30,10 +19,9 @@ const initExperience: Experience = {
 };
 
 function StepThree() {
+  const [experienceOpen, setExperienceOpen] = React.useState(false);
   const [experienceList, setExperienceList] = React.useState<Experience[]>([]);
   const resumeCtx = useResume();
-
-  console.log("ResumeID: " + resumeCtx?.resumeId);
 
   const removeExperience = async () => {
     console.log("removeExperience");
@@ -49,15 +37,18 @@ function StepThree() {
         <CustomSheet
           data={initExperience}
           trigger={
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => setExperienceOpen(true)}>
               <Plus size={18} className="mr-2" /> Add
             </Button>
           }
-          open={false}
+          open={experienceOpen}
           sheetTitle="Add Experience"
           sheetDescription="Add your most recent or relevant work experience."
         >
-          <ExperienceForm resumeId={resumeCtx?.resumeId} />
+          <ExperienceForm
+            resumeId={resumeCtx?.resumeId}
+            closeAction={setExperienceOpen}
+          />
         </CustomSheet>
 
         {/* {experienceList?.length > 1 && (
