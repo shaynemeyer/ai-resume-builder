@@ -41,9 +41,11 @@ type actionType = "edit" | "delete";
 export const IconButton = ({
   actionType,
   onClick,
+  className = "p-2 cursor-pointer",
 }: {
   actionType: actionType;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
+  className?: string;
 }) => {
   const { pending } = useFormStatus();
 
@@ -64,7 +66,7 @@ export const IconButton = ({
       type="submit"
       size="icon"
       variant="link"
-      className="p-2 cursor-pointer"
+      className={className}
       onClick={onClick}
     >
       {pending ? <ReloadIcon className=" animate-spin" /> : renderIcon()}
