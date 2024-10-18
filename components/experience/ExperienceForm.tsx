@@ -20,6 +20,10 @@ function ExperienceForm({
     const formData = new FormData(event.currentTarget);
     const rawData = Object.fromEntries(formData) as unknown as Experience;
     console.log("rawData: " + JSON.stringify(rawData));
+
+    // TODO: call API to save experience
+
+    // todo: if api succeeds and a close action has been passed in, close the sheet.
     if (closeAction) closeAction(false);
   };
 
