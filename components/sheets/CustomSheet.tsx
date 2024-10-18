@@ -11,11 +11,10 @@ import {
 interface CustomSheetProps {
   trigger?: React.ReactNode;
   children?: React.ReactNode;
-  handleSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
   sheetTitle?: string;
   sheetDescription?: string;
-  data?: unknown;
   open: boolean;
+  onCloseAction: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function CustomSheet({
@@ -24,9 +23,10 @@ export function CustomSheet({
   sheetDescription = "Sheet Description",
   children,
   open = false,
+  onCloseAction,
 }: CustomSheetProps) {
   return (
-    <Sheet open={open}>
+    <Sheet open={open} onOpenChange={onCloseAction}>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
       <SheetContent>
         <SheetHeader className="mb-4">

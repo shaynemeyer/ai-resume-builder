@@ -23,7 +23,7 @@ const currentUserEmail = async () => {
   return userEmail;
 };
 
-const checkOwnership = async (resumeId: number) => {
+export const checkOwnership = async (resumeId: number) => {
   try {
     const userEmail = await currentUserEmail();
     if (!userEmail) {

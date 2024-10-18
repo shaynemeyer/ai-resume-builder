@@ -8,34 +8,41 @@ import { Experience } from "@/types/experience";
 import * as React from "react";
 import { CustomSheet } from "../sheets/CustomSheet";
 import ExperienceForm from "../experience/ExperienceForm";
-
-const initExperience: Experience = {
-  title: "",
-  company: "",
-  address: "",
-  startDate: "",
-  endDate: "",
-  summary: "",
-};
+import { getExperienceByResumeId } from "@/actions/experience";
+import ExperienceCard from "../cards/ExperienceCard";
 
 function StepThree() {
   const [experienceOpen, setExperienceOpen] = React.useState(false);
   const [experienceList, setExperienceList] = React.useState<Experience[]>([]);
   const resumeCtx = useResume();
 
-  const removeExperience = async () => {
-    console.log("removeExperience");
-  };
+  React.useEffect(() => {
+    async function fetchAllExperiences() {
+      const results = await getExperienceByResumeId(
+        parseInt(resumeCtx?.resumeId as unknown as string)
+      );
+      if (results) {
+        setExperienceList(results as Experience[]);
+      }
+    }
+    fetchAllExperiences();
+  }, []);
 
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg overflow-y-auto">
       <h2 className="text-2xl font-bold mb-5">Experiences</h2>
 
-      {experienceList?.length > 0 && <div className="mb-10"></div>}
+      {experienceList?.length > 0 &&
+        experienceList.map((exp) => {
+          return (
+            <div className="mb-10" key={exp.id}>
+              <ExperienceCard experience={exp} />
+            </div>
+          );
+        })}
 
       <div className="flex justify-between mt-3">
         <CustomSheet
-          data={initExperience}
           trigger={
             <Button variant="outline" onClick={() => setExperienceOpen(true)}>
               <Plus size={18} className="mr-2" /> Add
@@ -44,6 +51,7 @@ function StepThree() {
           open={experienceOpen}
           sheetTitle="Add Experience"
           sheetDescription="Add your most recent or relevant work experience."
+          onCloseAction={setExperienceOpen}
         >
           <ExperienceForm
             resumeId={resumeCtx?.resumeId}
