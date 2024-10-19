@@ -1,6 +1,7 @@
 "use client";
 
 import { getResumeFromDb } from "@/actions/resume";
+import PreviewCard from "@/components/cards/PreviewCard";
 import ResumeCreateNav from "@/components/resume/ResumeCreateNav";
 import StepFive from "@/components/resume/StepFive";
 import StepFour from "@/components/resume/StepFour";
@@ -31,23 +32,33 @@ function ResumeEditPage() {
   if (!resume) return null;
 
   return (
-    <div className="flex flex-col justify-center items-center h-screen">
-      <ResumeCreateNav />
-      {resumeCtx?.step === 1 && (
-        <StepOne
-          resume={resume}
-          setResume={setResume as React.Dispatch<React.SetStateAction<Resume>>}
-        />
-      )}
-      {resumeCtx?.step === 2 && (
-        <StepTwo
-          resume={resume}
-          setResume={setResume as React.Dispatch<React.SetStateAction<Resume>>}
-        />
-      )}
-      {resumeCtx?.step === 3 && <StepThree />}
-      {resumeCtx?.step === 4 && <StepFour />}
-      {resumeCtx?.step === 5 && <StepFive />}
+    <div className="flex flex-col lg:flex-row h-screen overflow-y-auto">
+      <div className="flex flex-col lg:w-1/2 p-4 lg:order-last lg:flex lg:justify-center lg:items-center">
+        <PreviewCard resume={resume} />
+      </div>
+
+      <div className="flex flex-col lg:w-1/2 p-4 lg:order-first lg:flex lg:justify-center lg:items-start">
+        <ResumeCreateNav />
+        {resumeCtx?.step === 1 && (
+          <StepOne
+            resume={resume}
+            setResume={
+              setResume as React.Dispatch<React.SetStateAction<Resume>>
+            }
+          />
+        )}
+        {resumeCtx?.step === 2 && (
+          <StepTwo
+            resume={resume}
+            setResume={
+              setResume as React.Dispatch<React.SetStateAction<Resume>>
+            }
+          />
+        )}
+        {resumeCtx?.step === 3 && <StepThree />}
+        {resumeCtx?.step === 4 && <StepFour />}
+        {resumeCtx?.step === 5 && <StepFive />}
+      </div>
     </div>
   );
 }

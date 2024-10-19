@@ -3,15 +3,55 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Button } from "../ui/button";
 import { IconButton } from "../form/Button";
 import parse from "html-react-parser";
+import { CustomSheet } from "../sheets/CustomSheet";
+import ExperienceForm from "../experience/ExperienceForm";
+import React from "react";
+import { toast } from "@/hooks/use-toast";
+import {
+  deleteExperienceAction,
+  getExperienceByResumeId,
+} from "@/actions/experience";
+import CustomAlertDialog from "../dialogs/CustomAlertDialog";
 
-function ExperienceCard({ experience }: { experience: Experience }) {
+interface ExperienceCardProps {
+  experience: Experience;
+  setExperienceList: React.Dispatch<React.SetStateAction<Experience[]>>;
+}
+
+function ExperienceCard({
+  experience,
+  setExperienceList,
+}: ExperienceCardProps) {
+  const [experienceOpen, setExperienceOpen] = React.useState(false);
+
+  const refetchExperience = async () => {
+    const experienceList =
+      (await getExperienceByResumeId(
+        parseInt(experience.resumeId as unknown as string)
+      )) || [];
+
+    if (experienceList?.length > 0) {
+      setExperienceList(experienceList as Experience[]);
+    }
+  };
+
+  const handleDelete = (experienceId: number) => {
+    async function deleteExperience() {
+      await deleteExperienceAction(experienceId);
+      toast({ description: "Experience has been deleted" });
+    }
+    deleteExperience();
+    refetchExperience();
+    setExperienceOpen(false);
+  };
+
+  if (!experience) return null;
+
   return (
     <Card>
       <CardHeader>
@@ -19,20 +59,34 @@ function ExperienceCard({ experience }: { experience: Experience }) {
           <div>{experience.title}</div>
 
           <div>
-            <IconButton
-              actionType="edit"
-              className="p-0 "
-              onClick={() => console.log("edit experience")}
-            ></IconButton>
-            <IconButton
-              actionType="delete"
-              onClick={() => console.log("delete experience")}
-            ></IconButton>
+            <CustomSheet
+              trigger={
+                <IconButton
+                  actionType="edit"
+                  className="p-0 "
+                  onClick={() => setExperienceOpen(true)}
+                ></IconButton>
+              }
+              open={experienceOpen}
+              sheetTitle="Add Experience"
+              sheetDescription="Add your most recent or relevant work experience."
+              onCloseAction={setExperienceOpen}
+            >
+              <ExperienceForm
+                experienceId={experience.id}
+                resumeId={experience.resumeId}
+                closeAction={setExperienceOpen}
+              />
+            </CustomSheet>
+            <CustomAlertDialog
+              trigger={<IconButton actionType="delete"></IconButton>}
+              action={() => handleDelete(experience.id as number)}
+            />
           </div>
         </CardTitle>
         <CardDescription>
-          <div>{experience.company}</div>
-          <div className="text-xs">{experience.address}</div>
+          <span className="block">{experience.company}</span>
+          <span className="text-xs">{experience.address}</span>
         </CardDescription>
       </CardHeader>
       <CardContent>

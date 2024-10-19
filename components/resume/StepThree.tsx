@@ -36,7 +36,10 @@ function StepThree() {
         experienceList.map((exp) => {
           return (
             <div className="mb-10" key={exp.id}>
-              <ExperienceCard experience={exp} />
+              <ExperienceCard
+                experience={exp}
+                setExperienceList={setExperienceList}
+              />
             </div>
           );
         })}
@@ -56,6 +59,7 @@ function StepThree() {
           <ExperienceForm
             resumeId={resumeCtx?.resumeId}
             closeAction={setExperienceOpen}
+            setExperienceList={setExperienceList}
           />
         </CustomSheet>
 
@@ -65,9 +69,9 @@ function StepThree() {
           </Button>
         )} */}
 
-        {/* <Button variant="outline">
+        <Button variant="outline">
           <ArrowRight size={18} className="mr-2" /> Next
-        </Button> */}
+        </Button>
       </div>
     </div>
   );

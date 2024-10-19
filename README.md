@@ -37,3 +37,10 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ### HTML Parsing
 
 - [`html-react-parser`](https://www.npmjs.com/package/html-react-parser)
+
+---
+
+## Issues
+
+- Fix data refresh issue after creating or updating an experience
+- 

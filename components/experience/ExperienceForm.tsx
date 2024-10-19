@@ -2,16 +2,24 @@
 import { Experience } from "@/types/experience";
 import FormInput from "../form/FormInput";
 import { Button } from "../ui/button";
-import ReactQuill from "react-quill";
+import dynamic from "next/dynamic";
+const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import React from "react";
-import { createExperience, getExperienceFromDb } from "@/actions/experience";
+import {
+  createExperience,
+  getExperienceByResumeId,
+  getExperienceFromDb,
+  updateExperience,
+} from "@/actions/experience";
 import { toast } from "@/hooks/use-toast";
+import "react-quill/dist/quill.snow.css";
 
 interface ExperienceFormProps {
   resumeId?: number;
   experienceId?: number;
   actionButtonText?: string;
   closeAction?: React.Dispatch<React.SetStateAction<boolean>>;
+  setExperienceList?: React.Dispatch<React.SetStateAction<Experience[]>>;
 }
 
 const initExperience: Experience = {
@@ -27,9 +35,21 @@ function ExperienceForm({
   resumeId = 0,
   experienceId = 0,
   closeAction,
+  setExperienceList,
 }: ExperienceFormProps) {
   const [experience, setExperience] =
     React.useState<Experience>(initExperience);
+
+  const refetchExperience = async () => {
+    const experienceList =
+      (await getExperienceByResumeId(
+        parseInt(experience.resumeId as unknown as string)
+      )) || [];
+
+    if (experienceList?.length > 0 && setExperienceList) {
+      setExperienceList(experienceList as Experience[]);
+    }
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -43,9 +63,16 @@ function ExperienceForm({
       console.log(`experience created: ${result}`);
       toast({ description: "Experience has been created" });
     } else {
-      // TODO: call API to update experience
       console.log("Update experience");
+      const result = await updateExperience(experience);
+      console.log(`experience updated: ${result}`);
+      toast({ description: "Experience has been updated" });
     }
+    // todo: refetch experience
+    // if (resumeId) {
+    //   console.log("Refetch experience");
+    //   await refetchExperience();
+    // }
 
     // todo: if api succeeds and a close action has been passed in, close the sheet.
     if (closeAction) closeAction(false);
@@ -62,7 +89,8 @@ function ExperienceForm({
     }
     fetchExperience();
   }, [experienceId]);
-
+  console.log(`experienceId: ${experienceId}`);
+  console.log(`resumeId: ${resumeId}`);
   return (
     <>
       <form onSubmit={handleSubmit} id="form">

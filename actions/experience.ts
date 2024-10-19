@@ -53,6 +53,35 @@ export const createExperience = async (newExperience: Experience) => {
   }
 };
 
+export const updateExperience = async (updateExperience: Experience) => {
+  try {
+    // check ownership
+    await checkOwnership(updateExperience.resumeId as number);
+
+    const result = await db
+      .update(experience)
+      .set({
+        title: updateExperience?.title,
+        company: updateExperience?.company,
+        address: updateExperience?.address,
+        startDate: updateExperience?.startDate,
+        endDate: updateExperience?.endDate,
+        summary: updateExperience?.summary,
+        resumeId: parseInt(updateExperience?.resumeId as unknown as string),
+      })
+      .where(sql`id=${updateExperience?.id}`)
+      .returning();
+
+    return result;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error?.message);
+    }
+
+    console.error(error);
+  }
+};
+
 export const getExperienceByResumeId = async (resumeId: number) => {
   try {
     // check ownership
@@ -64,6 +93,19 @@ export const getExperienceByResumeId = async (resumeId: number) => {
       .where(sql`resume_id=${resumeId}`);
 
     return result;
+  } catch (error) {
+    if (error instanceof Error) {
+      throw new Error(error?.message);
+    }
+
+    console.error(error);
+  }
+};
+
+export const deleteExperienceAction = async (experienceId: number) => {
+  console.log(`deleting experience ${experienceId}`);
+  try {
+    await db.delete(experience).where(sql`id=${experienceId}`);
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error?.message);
