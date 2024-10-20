@@ -1,15 +1,15 @@
-import dynamic from "next/dynamic";
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
-import "react-quill/dist/quill.snow.css";
-import { ArrowRight, Plus, X, Loader2Icon, Brain } from "lucide-react";
-import { useResume } from "@/context/resume";
-import { Button } from "../ui/button";
-import { Experience } from "@/types/experience";
-import * as React from "react";
-import { CustomSheet } from "../sheets/CustomSheet";
-import ExperienceForm from "../experience/ExperienceForm";
-import { getExperienceByResumeId } from "@/actions/experience";
-import ExperienceCard from "../cards/ExperienceCard";
+import dynamic from 'next/dynamic';
+const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
+import 'react-quill/dist/quill.snow.css';
+import { ArrowRight, Plus } from 'lucide-react';
+import { useResume } from '@/context/resume';
+import { Button } from '../ui/button';
+import { Experience } from '@/types/experience';
+import * as React from 'react';
+import { CustomSheet } from '../sheets/CustomSheet';
+import ExperienceForm from '../experience/ExperienceForm';
+import { getExperienceByResumeId } from '@/actions/experience';
+import ExperienceCard from '../cards/ExperienceCard';
 
 function StepThree() {
   const [experienceOpen, setExperienceOpen] = React.useState(false);
