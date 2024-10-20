@@ -1,6 +1,7 @@
 import EducationPreview from '../preview/EducationPreview';
 import ExperiencePreview from '../preview/ExperiencePreview';
 import PersonalDetails from '../preview/PersonalDetails';
+import SkillsPreview from '../preview/SkillsPreview';
 import Summary from '../preview/Summary';
 import { Resume } from '@/types/resume';
 
@@ -15,6 +16,7 @@ function PreviewCard({ resume }: { resume: Resume }) {
       <Summary summary={resume.summary as string} />
       <ExperiencePreview resume={resume as Resume} />
       <EducationPreview resume={resume as Resume} />
+      <SkillsPreview resume={resume as Resume} />
     </div>
   );
 }
