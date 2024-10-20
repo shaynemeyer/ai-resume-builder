@@ -47,8 +47,8 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 ## Issues
 
 - Better state management
-- Loading stuck when now resumes for user.
+
 - Fix data refresh issue after creating or updating an experience.
 - Fix data refresh issue after creating or updating an education.
 - Fix data refresh issue after creating or updating an skill.
-- Add way to go back to dashboard when done. "Resume Complete
+- Add way to go back to dashboard when done. "Resume Complete"
