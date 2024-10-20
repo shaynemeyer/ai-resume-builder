@@ -1,18 +1,20 @@
-import { getEducationByResumeId } from "@/actions/education";
-import { Education } from "@/types/education";
-import { Resume } from "@/types/resume";
-import React from "react";
+import { getEducationByResumeId } from '@/actions/education';
+import { Education } from '@/types/education';
+import { Resume } from '@/types/resume';
+import React from 'react';
 
 function EducationPreview({ resume }: { resume: Resume }) {
   const [educationList, setEducationList] = React.useState<Education[]>([]);
 
   React.useEffect(() => {
     async function fetchAllEducations() {
-      const results = await getEducationByResumeId(
-        parseInt(resume?.id as unknown as string)
-      );
-      if (results) {
-        setEducationList(results as Education[]);
+      if (resume.id) {
+        const results = await getEducationByResumeId(
+          parseInt(resume?.id as unknown as string)
+        );
+        if (results) {
+          setEducationList(results as Education[]);
+        }
       }
     }
     fetchAllEducations();

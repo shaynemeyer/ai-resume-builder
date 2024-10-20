@@ -1,4 +1,4 @@
-import { Resume } from "@/types/resume";
+import { Resume } from '@/types/resume';
 
 function PersonalDetails({ resume }: { resume: Resume }) {
   return (
@@ -9,17 +9,19 @@ function PersonalDetails({ resume }: { resume: Resume }) {
       >
         {resume.name}
       </h2>
-      <h2 className="text-center text-sm font-medium">{resume.job}</h2>
-      <h2 className="text-center text-sm font-medium">{resume.address}</h2>
+      <h2 className="text-center text-sm font-medium">{resume.job || ''}</h2>
+      <h2 className="text-center text-sm font-medium">
+        {resume.address || ''}
+      </h2>
 
       <div className="flex justify-between">
-        <h2 className="font-normal text-xs">{resume.phone}</h2>
-        <h2 className="font-normal text-xs">{resume.email}</h2>
+        <h2 className="font-normal text-xs">{resume.phone || ''}</h2>
+        <h2 className="font-normal text-xs">{resume.email || ''}</h2>
       </div>
 
       <hr
         className="border-[1.5px] my-2"
-        style={{ borderColor: resume.themeColor }}
+        style={{ borderColor: resume?.themeColor }}
       />
     </>
   );

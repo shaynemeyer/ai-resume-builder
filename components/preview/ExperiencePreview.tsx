@@ -1,19 +1,21 @@
-import { Experience } from "@/types/experience";
-import { Resume } from "@/types/resume";
-import * as React from "react";
-import parse from "html-react-parser";
-import { getExperienceByResumeId } from "@/actions/experience";
+import { Experience } from '@/types/experience';
+import { Resume } from '@/types/resume';
+import * as React from 'react';
+import parse from 'html-react-parser';
+import { getExperienceByResumeId } from '@/actions/experience';
 
 function ExperiencePreview({ resume }: { resume: Resume }) {
   const [experienceList, setExperienceList] = React.useState<Experience[]>([]);
 
   React.useEffect(() => {
     async function fetchAllExperiences() {
-      const results = await getExperienceByResumeId(
-        parseInt(resume?.id as unknown as string)
-      );
-      if (results) {
-        setExperienceList(results as Experience[]);
+      if (resume.id) {
+        const results = await getExperienceByResumeId(
+          parseInt(resume?.id as unknown as string)
+        );
+        if (results) {
+          setExperienceList(results as Experience[]);
+        }
       }
     }
     fetchAllExperiences();
