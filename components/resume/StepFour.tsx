@@ -60,7 +60,7 @@ function StepFour() {
           />
         </CustomSheet>
 
-        <Button variant="outline">
+        <Button variant="outline" onClick={() => resumeCtx?.setStep(5)}>
           <ArrowRight size={18} className="mr-2" /> Next
         </Button>
       </div>

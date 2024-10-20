@@ -69,7 +69,7 @@ function StepThree() {
           </Button>
         )} */}
 
-        <Button variant="outline">
+        <Button variant="outline" onClick={() => resumeCtx?.setStep(4)}>
           <ArrowRight size={18} className="mr-2" /> Next
         </Button>
       </div>
