@@ -7,6 +7,9 @@ import Alert from "../dialogs/CustomAlertDialog";
 import { deleteResumeAction, getUserResumesFromDb } from "@/actions/resume";
 import { toast } from "@/hooks/use-toast";
 
+import ExperiencePreview from "../preview/ExperiencePreview";
+import EducationPreview from "../preview/EducationPreview";
+
 interface ResumeCardProps {
   resume: Resume;
   setResumes: React.Dispatch<React.SetStateAction<Resume[]>>;
@@ -46,8 +49,18 @@ function ResumeCard({ resume, setResumes }: ResumeCardProps) {
         />
       </div>
 
-      <PersonalDetails resume={resume} />
-      <Summary summary={resume.summary as string} />
+      <div className="line-clamp-3">
+        <PersonalDetails resume={resume} />
+      </div>
+      <div className="line-clamp-4">
+        <Summary summary={resume.summary as string} />
+      </div>
+      <div className="line-clamp-4">
+        <ExperiencePreview resume={resume as Resume} />
+      </div>
+      <div className="line-clamp-4">
+        <EducationPreview resume={resume as Resume} />
+      </div>
     </div>
   );
 }
