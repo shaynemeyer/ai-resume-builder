@@ -68,8 +68,8 @@ function ExperienceCard({
                 ></IconButton>
               }
               open={experienceOpen}
-              sheetTitle="Add Experience"
-              sheetDescription="Add your most recent or relevant work experience."
+              sheetTitle="Update Experience"
+              sheetDescription="Update your work experience."
               onCloseAction={setExperienceOpen}
             >
               <ExperienceForm

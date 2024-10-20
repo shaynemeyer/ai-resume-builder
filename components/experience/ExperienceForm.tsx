@@ -13,6 +13,8 @@ import {
 } from "@/actions/experience";
 import { toast } from "@/hooks/use-toast";
 import "react-quill/dist/quill.snow.css";
+import { Brain, Loader2Icon } from "lucide-react";
+import { runAi } from "@/actions/ai";
 
 interface ExperienceFormProps {
   resumeId?: number;
@@ -37,6 +39,7 @@ function ExperienceForm({
   closeAction,
   setExperienceList,
 }: ExperienceFormProps) {
+  const [loading, setLoading] = React.useState(false);
   const [experience, setExperience] =
     React.useState<Experience>(initExperience);
 
@@ -78,6 +81,57 @@ function ExperienceForm({
     if (closeAction) closeAction(false);
   };
 
+  const handleGenerateWithAi = async () => {
+    setLoading(true);
+
+    if (!experience || !experience.title) {
+      toast({
+        variant: "destructive",
+        description: "Please provide job details for your experience.",
+      });
+      setLoading(false);
+      return;
+    }
+
+    const jobTitle = experience.title;
+    const jobSummary = experience.summary || "";
+
+    try {
+      const response = await runAi(
+        `Generate a list of duties and responsibilities in HTML bullet points for the job title "${jobTitle}" ${jobSummary} in plain text format`
+      );
+      setExperience({
+        ...experience,
+        summary: response,
+      });
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        description: "Failed to generate AI summary.",
+      });
+      console.error(error);
+    }
+    // if (!resume.job) {
+    //   toast({
+    //     variant: "destructive",
+    //     description:
+    //       "Please fill in your personal details or write something about yourself.",
+    //   });
+    //   setLoading(false);
+    //   return;
+    // }
+    // const response = await runAi(
+    //   `Generate a resume summary for a person with the following details: ${JSON.stringify(
+    //     resume
+    //   )} in plain text format`
+    // );
+    // setResume({
+    //   ...resume,
+    //   summary: response,
+    // });
+    // setLoading(false);
+  };
+
   React.useEffect(() => {
     async function fetchExperience() {
       if (experienceId) {
@@ -89,8 +143,7 @@ function ExperienceForm({
     }
     fetchExperience();
   }, [experienceId]);
-  console.log(`experienceId: ${experienceId}`);
-  console.log(`resumeId: ${resumeId}`);
+
   return (
     <>
       <form onSubmit={handleSubmit} id="form">
@@ -143,6 +196,20 @@ function ExperienceForm({
             setExperience({ ...experience, endDate: e.target.value })
           }
         />
+        <div className="flex justify-end mt-3 mb-2">
+          <Button
+            variant="destructive"
+            onClick={handleGenerateWithAi}
+            disabled={loading}
+          >
+            {loading ? (
+              <Loader2Icon size={18} className="mr-2 animate-spin" />
+            ) : (
+              <Brain size={18} className="mr-2" />
+            )}
+            Generate with AI
+          </Button>
+        </div>
 
         <ReactQuill
           value={experience?.summary}
