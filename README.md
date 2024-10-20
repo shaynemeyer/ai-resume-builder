@@ -42,5 +42,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ## Issues
 
-- Fix data refresh issue after creating or updating an experience
-- 
+- Better state management
+- Fix data refresh issue after creating or updating an experience.
+- Fix data refresh issue after creating or updating an education.
