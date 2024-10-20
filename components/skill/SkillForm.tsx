@@ -1,8 +1,9 @@
-import { getSkillFromDb } from "@/actions/skills";
+import { createSkill, getSkillFromDb, updateSkill } from "@/actions/skills";
 import { Skill } from "@/types/skill";
 import React from "react";
 import FormInput from "../form/FormInput";
 import { Button } from "../ui/button";
+import { toast } from "@/hooks/use-toast";
 
 interface SkillFormProps {
   resumeId?: number;
@@ -28,6 +29,22 @@ function SkillForm({
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (resumeId && skillId === 0) {
+      console.log("Create skill");
+      const result = await createSkill({
+        ...skill,
+        resumeId: resumeId,
+      });
+      console.log(`skill created: ${result}`);
+      toast({ description: "Skill has been created" });
+    } else {
+      console.log("Update skill");
+      const result = await updateSkill(skill);
+      console.log(`skill updated: ${result}`);
+      toast({ description: "Skill has been updated" });
+    }
+
+    if (closeAction) closeAction(false);
   };
 
   React.useEffect(() => {

@@ -45,3 +45,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Better state management
 - Fix data refresh issue after creating or updating an experience.
 - Fix data refresh issue after creating or updating an education.
+- Fix data refresh issue after creating or updating an skill.
+- Add way to go back to dashboard when done. "Resume Complete
