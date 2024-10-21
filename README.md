@@ -53,3 +53,5 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Fix data refresh issue after creating or updating an skill.
 - Bullet points not rendering as html in preview.
 - Fix build errors.
+- Refactor forms and make them cleaner.
+- Add better schema validation for forms.

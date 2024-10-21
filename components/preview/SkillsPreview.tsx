@@ -2,6 +2,7 @@ import { getSkillByResumeId } from "@/actions/skills";
 import { Resume } from "@/types/resume";
 import { Skill, skillLevels } from "@/types/skill";
 import React from "react";
+import { Progress } from "../ui/progress";
 
 function SkillsPreview({ resume }: { resume: Resume }) {
   const [skillList, setSkillList] = React.useState<Skill[]>([]);
@@ -33,18 +34,10 @@ function SkillsPreview({ resume }: { resume: Resume }) {
       <div className="flex flex-row gap-2">
         {skillList.map((sk, index) => {
           return (
-            <div key={sk.id} className="my-3 flex flex-row">
+            <div key={sk.id} className="grid grid-cols-2 gap-3 my-4">
               <h3 className="font-bold text-sm">{sk.name}</h3>
-              <div className="ml-1">
-                <p className="text-sm">
-                  (
-                  {
-                    skillLevels.find(
-                      (level) => level.value.toString() === sk.level
-                    )?.label
-                  }
-                  )
-                </p>
+              <div className="flex-1 ml-2">
+                <Progress value={Number(sk.level) * 20} />
               </div>
             </div>
           );
