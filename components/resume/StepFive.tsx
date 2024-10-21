@@ -1,14 +1,14 @@
-import { getSkillByResumeId } from '@/actions/skills';
-import { useResume } from '@/context/resume';
-import { Skill } from '@/types/skill';
-import React from 'react';
-import SkillCard from '../cards/SkillCard';
-import { CustomSheet } from '../sheets/CustomSheet';
-import { Button } from '../ui/button';
-import { ArrowRight, Plus } from 'lucide-react';
-import SkillForm from '../skill/SkillForm';
-import { useRouter } from 'next/navigation';
-import { toast } from '@/hooks/use-toast';
+import { getSkillByResumeId } from "@/actions/skills";
+import { useResume } from "@/context/resume";
+import { Skill } from "@/types/skill";
+import React from "react";
+import SkillCard from "../cards/SkillCard";
+import { CustomSheet } from "../sheets/CustomSheet";
+import { Button } from "../ui/button";
+import { ArrowRight, Plus } from "lucide-react";
+import SkillForm from "../skill/SkillForm";
+import { useRouter } from "next/navigation";
+import { toast } from "@/hooks/use-toast";
 
 function StepFive() {
   const [skillOpen, setSkillOpen] = React.useState(false);
@@ -35,7 +35,7 @@ function StepFive() {
       {skillList?.length > 0 &&
         skillList.map((ed) => {
           return (
-            <div className="mb-10" key={ed.id}>
+            <div className="mb-4" key={ed.id}>
               <SkillCard skill={ed} setSkillList={setSkillList} />
             </div>
           );
@@ -63,8 +63,8 @@ function StepFive() {
         <Button
           variant="outline"
           onClick={() => {
-            toast({ description: 'Resume has been updated.' });
-            router.push('/dashboard');
+            toast({ description: "Resume has been updated." });
+            router.push("/dashboard");
           }}
         >
           <ArrowRight size={18} className="mr-2" /> Resume Complete

@@ -1,9 +1,21 @@
 import { createSkill, getSkillFromDb, updateSkill } from "@/actions/skills";
-import { Skill } from "@/types/skill";
+import { Skill, skillLevels } from "@/types/skill";
 import React from "react";
 import FormInput from "../form/FormInput";
 import { Button } from "../ui/button";
 import { toast } from "@/hooks/use-toast";
+import { Popover } from "@radix-ui/react-popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "../ui/command";
+import { PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface SkillFormProps {
   resumeId?: number;
@@ -72,7 +84,7 @@ function SkillForm({
           }
           required={true}
         />
-        <FormInput
+        {/* <FormInput
           name="level"
           type="text"
           placeholder="Level"
@@ -81,7 +93,60 @@ function SkillForm({
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setSkill({ ...skill, level: e.target.value })
           }
-        />
+        /> */}
+        <div className="mb-2">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                className={cn(
+                  "w-[200px] justify-between",
+                  !skill.level && "text-muted-foreground"
+                )}
+              >
+                {skill.level
+                  ? skillLevels.find(
+                      (sk) => sk.value.toString() === skill.level
+                    )?.label
+                  : "Select skill level"}
+                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[200px] p-0">
+              <Command>
+                <CommandInput placeholder="Search level..." />
+                <CommandList>
+                  <CommandEmpty>No skill level found.</CommandEmpty>
+                  <CommandGroup>
+                    {skillLevels.map((skillOption) => (
+                      <CommandItem
+                        value={skillOption.label}
+                        key={skillOption.value}
+                        onSelect={() => {
+                          setSkill({
+                            ...skill,
+                            level: skillOption.value.toString(),
+                          });
+                        }}
+                      >
+                        <Check
+                          className={cn(
+                            "mr-2 h-4 w-4",
+                            skillOption.value.toString() === skill.level
+                              ? "opacity-100"
+                              : "opacity-0"
+                          )}
+                        />
+                        {skillOption.label}
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
         <Button type="submit" form="form">
           {skillId === 0 ? "Save" : "Update"}
         </Button>

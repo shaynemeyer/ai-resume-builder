@@ -1,7 +1,7 @@
-import { getSkillByResumeId } from '@/actions/skills';
-import { Resume } from '@/types/resume';
-import { Skill } from '@/types/skill';
-import React from 'react';
+import { getSkillByResumeId } from "@/actions/skills";
+import { Resume } from "@/types/resume";
+import { Skill, skillLevels } from "@/types/skill";
+import React from "react";
 
 function SkillsPreview({ resume }: { resume: Resume }) {
   const [skillList, setSkillList] = React.useState<Skill[]>([]);
@@ -30,16 +30,26 @@ function SkillsPreview({ resume }: { resume: Resume }) {
       </h2>
       <hr style={{ color: resume.themeColor }} />
 
-      {skillList.map((sk, index) => {
-        return (
-          <div key={sk.id} className="my-5">
-            <h3 className="font-bold text-sm">{sk.name}</h3>
-            <div className="ml-2">
-              <p className="text-sm">{sk.level}</p>
+      <div className="flex flex-row gap-2">
+        {skillList.map((sk, index) => {
+          return (
+            <div key={sk.id} className="my-3 flex flex-row">
+              <h3 className="font-bold text-sm">{sk.name}</h3>
+              <div className="ml-1">
+                <p className="text-sm">
+                  (
+                  {
+                    skillLevels.find(
+                      (level) => level.value.toString() === sk.level
+                    )?.label
+                  }
+                  )
+                </p>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }

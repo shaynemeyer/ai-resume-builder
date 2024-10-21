@@ -3,7 +3,7 @@ import CustomAlertDialog from "../dialogs/CustomAlertDialog";
 import { IconButton } from "../form/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { deleteSkillAction, getSkillByResumeId } from "@/actions/skills";
-import { Skill } from "@/types/skill";
+import { Skill, skillLevels } from "@/types/skill";
 import React from "react";
 import { CustomSheet } from "../sheets/CustomSheet";
 import SkillForm from "../skill/SkillForm";
@@ -46,7 +46,12 @@ function SkillCard({ skill, setSkillList }: SkillCardProps) {
         <CardTitle className="flex flex-row justify-between">
           <div>
             <span className="block">{skill.name}</span>
-            <span className="text-xs text-muted-foreground">{skill.level}</span>
+            <span className="text-xs text-muted-foreground">
+              {
+                skillLevels.find((sk) => sk.value.toString() === skill.level)
+                  ?.label
+              }
+            </span>
           </div>
 
           <div>
