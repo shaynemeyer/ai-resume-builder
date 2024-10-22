@@ -55,3 +55,4 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 - Fix build errors.
 - Refactor forms and make them cleaner.
 - Add better schema validation for forms.
+- Set Step to 1 when clicking edit form button.

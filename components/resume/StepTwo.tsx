@@ -28,6 +28,7 @@ function StepTwo({ resume, setResume }: ResumeProps) {
     // go to next step
     resumeCtx?.setStep(3);
   };
+  console.log(resume.themeColor);
 
   const handleGenerateWithAi = async () => {
     setLoading(true);
@@ -57,12 +58,7 @@ function StepTwo({ resume, setResume }: ResumeProps) {
   return (
     <div className="w-full p-5 shadow-lg border-t-4 rounded-lg">
       <div className="flex justify-between">
-        <h2
-          className="text-2xl font-bold mb-5"
-          style={{ color: resume?.themeColor }}
-        >
-          Summary
-        </h2>
+        <h2 className="text-2xl font-bold mb-5">Summary</h2>
 
         <Button
           variant="destructive"

@@ -92,6 +92,7 @@ export const updateResumeAction = async (resume: Resume) => {
       .update(resumes)
       .set({
         ...validatedFields,
+        themeColor: resume.themeColor,
         userEmail,
       })
       .where(sql`id=${resume.id} and user_email=${userEmail}`);

@@ -54,7 +54,10 @@ function ResumeCard({ resume, setResumes }: ResumeCardProps) {
         <PersonalDetails resume={resume} />
       </div>
       <div className="line-clamp-4">
-        <Summary summary={resume.summary as string} />
+        <Summary
+          summary={resume.summary as string}
+          themeColor={resume.themeColor as string}
+        />
       </div>
       <div className="line-clamp-4">
         <ExperiencePreview resume={resume as Resume} />
