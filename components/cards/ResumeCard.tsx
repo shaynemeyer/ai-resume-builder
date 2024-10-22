@@ -9,6 +9,7 @@ import { toast } from "@/hooks/use-toast";
 
 import ExperiencePreview from "../preview/ExperiencePreview";
 import EducationPreview from "../preview/EducationPreview";
+import SkillsPreview from "../preview/SkillsPreview";
 
 interface ResumeCardProps {
   resume: Resume;
@@ -60,6 +61,9 @@ function ResumeCard({ resume, setResumes }: ResumeCardProps) {
       </div>
       <div className="line-clamp-4">
         <EducationPreview resume={resume as Resume} />
+      </div>
+      <div className="line-clamp-4">
+        <SkillsPreview resume={resume as Resume} />
       </div>
     </div>
   );
