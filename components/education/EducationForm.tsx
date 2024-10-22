@@ -30,9 +30,8 @@ function EducationForm({
   resumeId = 0,
   educationId = 0,
   closeAction,
-  setEducationList,
 }: EducationFormProps) {
-  const [loading, setLoading] = React.useState(false);
+  // const [loading, setLoading] = React.useState(false);
   const [education, setEducation] = React.useState<Education>(initEducation);
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

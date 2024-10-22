@@ -1,15 +1,12 @@
-import dynamic from 'next/dynamic';
-const ReactQuill = dynamic(() => import('react-quill'), { ssr: false });
-import 'react-quill/dist/quill.snow.css';
-import { ArrowRight, Plus } from 'lucide-react';
-import { useResume } from '@/context/resume';
-import { Button } from '../ui/button';
-import { Experience } from '@/types/experience';
-import * as React from 'react';
-import { CustomSheet } from '../sheets/CustomSheet';
-import ExperienceForm from '../experience/ExperienceForm';
-import { getExperienceByResumeId } from '@/actions/experience';
-import ExperienceCard from '../cards/ExperienceCard';
+import { ArrowRight, Plus } from "lucide-react";
+import { useResume } from "@/context/resume";
+import { Button } from "../ui/button";
+import { Experience } from "@/types/experience";
+import * as React from "react";
+import { CustomSheet } from "../sheets/CustomSheet";
+import ExperienceForm from "../experience/ExperienceForm";
+import { getExperienceByResumeId } from "@/actions/experience";
+import ExperienceCard from "../cards/ExperienceCard";
 
 function StepThree() {
   const [experienceOpen, setExperienceOpen] = React.useState(false);
@@ -62,12 +59,6 @@ function StepThree() {
             setExperienceList={setExperienceList}
           />
         </CustomSheet>
-
-        {/* {experienceList?.length > 1 && (
-          <Button variant="outline" onClick={removeExperience}>
-            <X size={18} className="mr-2" /> Remove
-          </Button>
-        )} */}
 
         <Button variant="outline" onClick={() => resumeCtx?.setStep(4)}>
           <ArrowRight size={18} className="mr-2" /> Next

@@ -7,7 +7,6 @@ const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import React from "react";
 import {
   createExperience,
-  getExperienceByResumeId,
   getExperienceFromDb,
   updateExperience,
 } from "@/actions/experience";
@@ -37,22 +36,21 @@ function ExperienceForm({
   resumeId = 0,
   experienceId = 0,
   closeAction,
-  setExperienceList,
 }: ExperienceFormProps) {
   const [loading, setLoading] = React.useState(false);
   const [experience, setExperience] =
     React.useState<Experience>(initExperience);
 
-  const refetchExperience = async () => {
-    const experienceList =
-      (await getExperienceByResumeId(
-        parseInt(experience.resumeId as unknown as string)
-      )) || [];
+  // const refetchExperience = async () => {
+  //   const experienceList =
+  //     (await getExperienceByResumeId(
+  //       parseInt(experience.resumeId as unknown as string)
+  //     )) || [];
 
-    if (experienceList?.length > 0 && setExperienceList) {
-      setExperienceList(experienceList as Experience[]);
-    }
-  };
+  //   if (experienceList?.length > 0 && setExperienceList) {
+  //     setExperienceList(experienceList as Experience[]);
+  //   }
+  // };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();

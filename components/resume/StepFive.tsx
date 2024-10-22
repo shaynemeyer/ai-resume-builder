@@ -64,7 +64,7 @@ function StepFive() {
           variant="outline"
           onClick={() => {
             toast({ description: "Resume has been updated." });
-            router.push("/dashboard");
+            router.push(`/dashboard/resume/download/${resumeCtx?.resumeId}`);
           }}
         >
           <ArrowRight size={18} className="mr-2" /> Resume Complete
