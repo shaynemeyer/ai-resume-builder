@@ -6,6 +6,23 @@ import SkillsPreview from "@/components/preview/SkillsPreview";
 import Summary from "@/components/preview/Summary";
 import { Resume } from "@/types/resume";
 
+export async function generateMetadata({ params }: { params: { id: string } }) {
+  const { id } = params;
+
+  const resume = await getResumeFromDb(parseInt(id));
+
+  if (!resume) return null;
+
+  return {
+    title: `${resume.name} - Resume`,
+    description: resume.summary,
+    openGraph: {
+      title: `${resume.name} resume`,
+      description: resume.summary,
+      images: ["/logo.svg"],
+    },
+  };
+}
 async function ResumePage({ params }: { params: { id: string } }) {
   const { id } = params;
 
