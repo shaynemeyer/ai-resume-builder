@@ -1,17 +1,20 @@
-import { Experience } from '@/types/experience';
-import { Resume } from '@/types/resume';
-import * as React from 'react';
-import parse from 'html-react-parser';
-import { getExperienceByResumeId } from '@/actions/experience';
+"use client";
+
+import { Experience } from "@/types/experience";
+import { Resume } from "@/types/resume";
+import * as React from "react";
+import parse from "html-react-parser";
+import { getExperienceByResumeId } from "@/actions/experience";
 
 function ExperiencePreview({ resume }: { resume: Resume }) {
   const [experienceList, setExperienceList] = React.useState<Experience[]>([]);
+  const { id } = resume;
 
   React.useEffect(() => {
     async function fetchAllExperiences() {
-      if (resume.id) {
+      if (id) {
         const results = await getExperienceByResumeId(
-          parseInt(resume?.id as unknown as string)
+          parseInt(id as unknown as string)
         );
         if (results) {
           setExperienceList(results as Experience[]);
@@ -19,7 +22,8 @@ function ExperiencePreview({ resume }: { resume: Resume }) {
       }
     }
     fetchAllExperiences();
-  }, []);
+  }, [id]);
+
   return (
     <div className="my-6">
       <h2
@@ -29,7 +33,7 @@ function ExperiencePreview({ resume }: { resume: Resume }) {
         Professional Experience
       </h2>
       <hr style={{ color: resume.themeColor }} />
-      {experienceList.map((exp, index) => {
+      {experienceList.map((exp) => {
         return (
           <div key={exp.id} className="my-5">
             <h2 className="text-sm font-bold">{exp?.title}</h2>

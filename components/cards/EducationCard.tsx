@@ -1,12 +1,6 @@
 import { Education } from "@/types/education";
 import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { CustomSheet } from "../sheets/CustomSheet";
 import CustomAlertDialog from "../dialogs/CustomAlertDialog";
 import { IconButton } from "../form/Button";

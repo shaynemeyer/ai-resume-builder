@@ -6,7 +6,6 @@ import Summary from "../preview/Summary";
 import { Resume } from "@/types/resume";
 
 function PreviewCard({ resume }: { resume: Resume }) {
-  console.log("resume in preview card:", resume);
   return (
     <div
       className="shadow-lg max-h-screen w-full rounded-xl p-5 border-t-[20px] overflow-y-auto"

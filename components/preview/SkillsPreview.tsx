@@ -1,3 +1,5 @@
+"use client";
+
 import { getSkillByResumeId } from "@/actions/skills";
 import { Resume } from "@/types/resume";
 import { Skill } from "@/types/skill";

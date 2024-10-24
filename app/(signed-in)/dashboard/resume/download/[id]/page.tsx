@@ -10,14 +10,15 @@ import React from "react";
 
 function ResumeDownloadPage({ params }: { params: { id: string } }) {
   const [resume, setResume] = React.useState<Resume>();
-  const [resumes, setResumes] = React.useState<Resume[]>([]);
+  const [_, setResumes] = React.useState<Resume[]>([]);
   const resumeCtx = useResume();
+  const { id } = params;
 
   React.useEffect(() => {
     resumeCtx?.setStep(1);
     const fetchResume = async () => {
-      if (resumeCtx?.resumeId) {
-        const data = await getResumeFromDb(parseInt(params.id));
+      if (id) {
+        const data = await getResumeFromDb(parseInt(id));
 
         if (data) {
           setResume(data as Resume);
@@ -25,9 +26,21 @@ function ResumeDownloadPage({ params }: { params: { id: string } }) {
       }
     };
     fetchResume();
-  }, [resumeCtx]);
+  }, [resumeCtx, id]);
 
-  console.log("ResumeId: " + params.id);
+  const printResume = () => {
+    if (typeof window !== "undefined") {
+      const newWindow = window.open(`/resume/${id}`, "_blank");
+
+      if (newWindow) {
+        newWindow.onload = () => {
+          setTimeout(() => {
+            newWindow?.print();
+          }, 300);
+        };
+      }
+    }
+  };
 
   if (!resume) return null;
 
@@ -39,10 +52,10 @@ function ResumeDownloadPage({ params }: { params: { id: string } }) {
         </h2>
         <p>You can now download, print or share it with anyone.</p>
         <div className="flex justify-between my-5">
-          <Button>
+          <Button onClick={printResume}>
             Download <FileDown size={16} className="ml-2" />
           </Button>
-          <Button>
+          <Button onClick={printResume}>
             Print <Printer size={16} className="ml-2" />
           </Button>
           <Button>

@@ -1,7 +1,8 @@
-import { getEducationByResumeId } from '@/actions/education';
-import { Education } from '@/types/education';
-import { Resume } from '@/types/resume';
-import React from 'react';
+"use client";
+import { getEducationByResumeId } from "@/actions/education";
+import { Education } from "@/types/education";
+import { Resume } from "@/types/resume";
+import React from "react";
 
 function EducationPreview({ resume }: { resume: Resume }) {
   const [educationList, setEducationList] = React.useState<Education[]>([]);

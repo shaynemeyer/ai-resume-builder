@@ -1,7 +1,6 @@
 import { Resume } from "@/types/resume";
 
 function PersonalDetails({ resume }: { resume: Resume }) {
-  console.log(JSON.stringify(resume));
   return (
     <>
       <h2

@@ -13,7 +13,7 @@ function Summary({
       <h2 className="font-bold mb-3" style={{ color: themeColor }}>
         Summary
       </h2>
-      {summary && <p className="text-xs">{parse(summary)}</p>}
+      {summary && <span className="text-xs">{parse(summary)}</span>}
     </div>
   );
 }

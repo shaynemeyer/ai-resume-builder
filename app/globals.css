@@ -101,3 +101,13 @@
     display: none;
   }
 }
+
+@media print {
+  @page {
+    margin: 0;
+  }
+  /* Hide specific elements */
+  .top-nav {
+    display: none;
+  }
+}

@@ -14,7 +14,7 @@ import {
 function TopNav() {
   const { isSignedIn, user } = useUser();
   return (
-    <nav className="flex justify-between p-1 shadow">
+    <nav className="flex justify-between p-1 shadow top-nav">
       <Link href="/">
         <Image src="/images/logo.svg" height={50} width={50} alt="Logo" />
       </Link>
