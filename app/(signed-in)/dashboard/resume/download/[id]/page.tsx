@@ -4,6 +4,7 @@ import { getResumeFromDb } from "@/actions/resume";
 import ResumeCard from "@/components/cards/ResumeCard";
 import { Button } from "@/components/ui/button";
 import { useResume } from "@/context/resume";
+import { toast } from "@/hooks/use-toast";
 import { Resume } from "@/types/resume";
 import { FileDown, Printer, Share2 } from "lucide-react";
 import React from "react";
@@ -58,7 +59,17 @@ function ResumeDownloadPage({ params }: { params: { id: string } }) {
           <Button onClick={printResume}>
             Print <Printer size={16} className="ml-2" />
           </Button>
-          <Button>
+          <Button
+            onClick={() => {
+              navigator.clipboard.writeText(
+                `${window.location.origin}/resume/${id}`
+              );
+              toast({
+                description:
+                  "Link copied to clipboard to share with anyone, anywhere!",
+              });
+            }}
+          >
             Share <Share2 size={16} className="ml-2" />
           </Button>
         </div>
