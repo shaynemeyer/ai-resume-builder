@@ -84,16 +84,7 @@ function SkillForm({
           }
           required={true}
         />
-        {/* <FormInput
-          name="level"
-          type="text"
-          placeholder="Level"
-          defaultValue={skill?.level || ""}
-          required={true}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setSkill({ ...skill, level: e.target.value })
-          }
-        /> */}
+
         <div className="mb-2">
           <Popover>
             <PopoverTrigger asChild>
